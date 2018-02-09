@@ -14,7 +14,8 @@
         </div>
         <table class="table is-bordered">
             <tr v-for="(todo, index) in items" :key="index">
-                <td class="is-fullwidth" style="cursor: pointer" :class="{ 'is-done': todo.done }" @click="toggleDone(todo)">
+                <td class="is-fullwidth" style="cursor: pointer" :class="{ 'is-done': todo.done }"
+                    @click="toggleDone(todo)">
                     {{ todo.text }}
                 </td>
                 <td class="is-narrow">
@@ -34,33 +35,34 @@
      *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
      */
     export default {
-        data () {
+        data() {
             return {
                 todoItemText: '',
                 items: [],
             }
         },
-        mounted () {
+        mounted() {
             this.items = [
-                { text: 'Primer recordatorio', done: true },
-                { text: 'Segundo recordatorio', done: false },
-                { text: 'Tercero recordatorio', done: false },
-                { text: 'Cuarto recordatorio', done: true },
-                { text: 'Quinto recordatorio', done: false },
+                {text: 'Primer recordatorio', done: true},
+                {text: 'Segundo recordatorio', done: false},
+                {text: 'Tercero recordatorio', done: false},
+                {text: 'Cuarto recordatorio', done: true},
+                {text: 'Quinto recordatorio', done: false},
             ]
         },
         methods: {
-            addTodo () {
+            addTodo() {
                 let text = this.todoItemText.trim()
                 if (text !== '') {
-                    this.items.push({ text: text, done: false })
+                    this.items.push({text: text, done: false})
                     this.todoItemText = ''
                 }
             },
-            removeTodo (todo) {
-                this.items = this.items.filter(item => item !== todo)
+            removeTodo(todo) {
+                this.items = this.items.filter(item = > item !== todo
+            )
             },
-            toggleDone (todo) {
+            toggleDone(todo) {
                 todo.done = !todo.done
             }
         }
