@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * En esta clase deben implementar los metodos vacios de acuerdo a lo
@@ -23,6 +25,11 @@ class TodoController extends Controller
     public function index()
     {
         // TODO
+        $todo = Todo::All();
+        return response()->json([
+            'data' => $todo,
+            'message' => 'Success'
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -36,6 +43,19 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         // TODO
+
+        $this->validate($request, [
+            'text' => 'required|max:255',
+        ]);
+
+        $todo = Todo::create([
+            'text' => request('text'),
+        ]);
+
+        return response()->json([
+            'data' => $todo,
+            'message' => 'Success'
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -49,6 +69,24 @@ class TodoController extends Controller
     public function update($id, Request $request)
     {
         // TODO
+        $this->validate($request, [
+            'text' => 'required|max:255',
+        ]);
+
+        $todo = Todo::find($id);
+
+        if (!$todo) {
+            return response()->json([
+                'message' => "Todo {$id} not found"
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $todo->text = request('text');
+        $todo->done = request('done');
+        $todo->save();
+
+        return response()->json([
+            'message' => 'Todo updated successfully!'
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -60,6 +98,20 @@ class TodoController extends Controller
      */
     public function delete($id)
     {
+
         // TODO
+        $todo = Todo::find($id);
+
+        if (!$todo) {
+            return response()->json([
+                'message' => "Todo {$id} not found"
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $todo->delete();
+
+        return response()->json([
+            'message' => 'Todo deleted successfully!'
+        ], Response::HTTP_OK);
     }
 }

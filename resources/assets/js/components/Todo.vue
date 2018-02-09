@@ -42,28 +42,41 @@
             }
         },
         mounted() {
-            this.items = [
-                {text: 'Primer recordatorio', done: true},
-                {text: 'Segundo recordatorio', done: false},
-                {text: 'Tercero recordatorio', done: false},
-                {text: 'Cuarto recordatorio', done: true},
-                {text: 'Quinto recordatorio', done: false},
-            ]
+            axios.get('api/todos').then((res) => {
+                this.items = res.data.data;
+            });
         },
         methods: {
             addTodo() {
                 let text = this.todoItemText.trim()
                 if (text !== '') {
-                    this.items.push({text: text, done: false})
-                    this.todoItemText = ''
+                    axios.post('/api/todos', {
+                        text: text
+                    }).then((res) => {
+                        if(res) {
+                            this.items.push({text: text, done: false});
+                            this.todoItemText = '';
+                        }
+                    });
                 }
             },
             removeTodo(todo) {
-                this.items = this.items.filter(item = > item !== todo
-            )
+                axios.delete('api/todos/'+todo.id).then((res) => {
+                    this.items = this.items.filter(
+                        item => item !== todo
+                    )
+                });
             },
             toggleDone(todo) {
-                todo.done = !todo.done
+                axios.put('/api/todos/'+todo.id, {
+                    text: todo.text,
+                    done: !todo.done
+                }).then((res) => {
+                    if(res) {
+                        todo.done = !todo.done
+                    }
+                });
+
             }
         }
     }
