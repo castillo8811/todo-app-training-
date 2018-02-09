@@ -39,11 +39,19 @@
             return {
                 todoItemText: '',
                 items: [],
+                errors:[],
             }
         },
         mounted() {
             axios.get('api/todos').then((res) => {
                 this.items = res.data.data;
+            }).catch(error => {
+                console.log(error.response);
+                if (error.response.status==500) {
+                    alert(error.response.statusText);
+                }else{
+                    alert(error.response.data.message);
+                }
             });
         },
         methods: {
@@ -57,6 +65,14 @@
                             this.items.push({text: text, done: false});
                             this.todoItemText = '';
                         }
+                    }).catch(error => {
+                        console.log(error.response);
+                        if (error.response.status==500) {
+                            alert(error.response.statusText);
+                        }else{
+                            alert(error.response.data.message);
+                        }
+
                     });
                 }
             },
@@ -65,6 +81,14 @@
                     this.items = this.items.filter(
                         item => item !== todo
                     )
+                }).catch(error => {
+                    console.log(error.response);
+                    if (error.response.status==500) {
+                        alert(error.response.statusText);
+                    }else{
+                        alert(error.response.data.message);
+                    }
+
                 });
             },
             toggleDone(todo) {
@@ -75,6 +99,14 @@
                     if(res) {
                         todo.done = !todo.done
                     }
+                }).catch(error => {
+                    console.log(error.response);
+                    if (error.response.status==500) {
+                        alert(error.response.statusText);
+                    }else{
+                        alert(error.response.data.message);
+                    }
+
                 });
 
             }

@@ -29786,14 +29786,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             todoItemText: '',
-            items: []
+            items: [],
+            errors: []
         };
     },
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('api/todos').then(function (res) {
+        axios.get('api/todosss').then(function (res) {
             _this.items = res.data.data;
+        }).catch(function (error) {
+            console.log(error.response);
+            if (error.response.status == 500) {
+                alert(error.response.statusText);
+            } else {
+                alert(error.response.data.message);
+            }
         });
     },
 
@@ -29810,6 +29818,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.items.push({ text: text, done: false });
                         _this2.todoItemText = '';
                     }
+                }).catch(function (error) {
+                    console.log(error.response);
+                    if (error.response.status == 500) {
+                        alert(error.response.statusText);
+                    } else {
+                        alert(error.response.data.message);
+                    }
                 });
             }
         },
@@ -29820,6 +29835,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this3.items = _this3.items.filter(function (item) {
                     return item !== todo;
                 });
+            }).catch(function (error) {
+                console.log(error.response);
+                if (error.response.status == 500) {
+                    alert(error.response.statusText);
+                } else {
+                    alert(error.response.data.message);
+                }
             });
         },
         toggleDone: function toggleDone(todo) {
@@ -29829,6 +29851,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 if (res) {
                     todo.done = !todo.done;
+                }
+            }).catch(function (error) {
+                console.log(error.response);
+                if (error.response.status == 500) {
+                    alert(error.response.statusText);
+                } else {
+                    alert(error.response.data.message);
                 }
             });
         }
