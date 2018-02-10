@@ -13,83 +13,37 @@
 
 <script>
     import TodoInput from "./todo-input";
+    import store from "../store/index"
+    import { mapState } from 'vuex';
+
 
     export default {
         components: {TodoInput},
+        store:store,
         data() {
-            return {
-                items: [],
-                errors: [],
-            }
+            return {}
         },
         mounted() {
-            axios.get('api/todos').then((res) => {
-                this.items = res.data.data;
-            }).catch(error => {
-                console.log(error.response);
-                if (error.response.status == 500) {
-                    alert(error.response.statusText);
-                } else {
-                    alert(error.response.data.message);
-                }
-            });
+            this.$store.dispatch('fetch');
+        },
+        computed: {
+            items () {
+                return this.$store.state.todos
+            }
         },
         methods: {
             addTodo(todoItemText) {
                 let text = todoItemText;
                 if (text !== '') {
-                    axios.post('/api/todos', {
-                        text: text
-                    }).then((res) => {
-                        if (res) {
-                            this.items.push({text: text, done: false});
-                            this.todoItemText = '';
-                        }
-                    }).catch(error => {
-                        console.log(error.response);
-                        if (error.response.status == 500) {
-                            alert(error.response.statusText);
-                        } else {
-                            alert(error.response.data.message);
-                        }
-
-                    });
+                    this.$store.dispatch('add', text);
                 }
             },
             removeTodo(todo) {
-                axios.delete('api/todos/' + todo.id).then((res) => {
-                    this.items = this.items.filter(
-                        item => item !== todo
-                    )
-                }).catch(error => {
-                    console.log(error.response);
-                    if (error.response.status == 500) {
-                        alert(error.response.statusText);
-                    } else {
-                        alert(error.response.data.message);
-                    }
-
-                });
+                this.$store.dispatch('delete', todo);
             },
             toggleDone(todo) {
-                axios.put('/api/todos/' + todo.id, {
-                    text: todo.text,
-                    done: !todo.done
-                }).then((res) => {
-                    if (res) {
-                        todo.done = !todo.done
-                    }
-                }).catch(error => {
-                    console.log(error.response);
-                    if (error.response.status == 500) {
-                        alert(error.response.statusText);
-                    } else {
-                        alert(error.response.data.message);
-                    }
-
-                });
-
-            }
+                this.$store.dispatch('toggle', todo);
+            },
         }
     }
 </script>

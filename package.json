@@ -17,8 +17,11 @@
         "vue": "^2.1.10"
     },
     "dependencies": {
+        "async-action-creator": "^1.1.0",
         "buefy": "^0.5.3",
         "bulma": "^0.5.3",
-        "vuex": "^2.4.1"
+        "install": "^0.10.4",
+        "npm": "^5.6.0",
+        "vuex": "^2.5.0"
     }
 }
