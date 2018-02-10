@@ -23,7 +23,9 @@
         },
         methods: {
             add() {
-                this.$emit('add', this.todoItemText)
+                if(this.todoItemText !== ''){
+                    this.$emit('add', this.todoItemText)
+                }
             },
         }
     }
