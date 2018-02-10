@@ -1,32 +1,19 @@
 <template>
     <div class="container">
-        <div class="box">
-            <div class="field is-grouped">
-                <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Nuevo recordatorio" v-model="todoItemText">
-                </p>
-                <p class="control">
-                    <a class="button is-info" @click="addTodo">
-                        Agregar
-                    </a>
-                </p>
-            </div>
-        </div>
+        <todo-input v-on:add="addTodo"></todo-input>
         <table class="table is-bordered">
-            <tr v-for="(todo, index) in items" :key="index">
-                <td class="is-fullwidth" style="cursor: pointer" :class="{ 'is-done': todo.done }"
-                    @click="toggleDone(todo)">
-                    {{ todo.text }}
-                </td>
-                <td class="is-narrow">
-                    <a class="button is-danger is-small" @click="removeTodo(todo)">Eliminar</a>
-                </td>
-            </tr>
+            <todo-item v-for="(todo, index) in items" v-bind:todo="todo"
+                       v-on:remove="removeTodo"
+                       v-on:toogle="toggleDone"
+                       :key="index">
+            </todo-item>
         </table>
     </div>
 </template>
 
 <script>
+    import TodoInput from "./todo-input";
+
     /**
      * Tips:
      * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
@@ -35,9 +22,9 @@
      *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
      */
     export default {
+        components: {TodoInput},
         data() {
             return {
-                todoItemText: '',
                 items: [],
                 errors:[],
             }
@@ -55,8 +42,8 @@
             });
         },
         methods: {
-            addTodo() {
-                let text = this.todoItemText.trim()
+            addTodo(todoItemText) {
+                let text = todoItemText;
                 if (text !== '') {
                     axios.post('/api/todos', {
                         text: text
