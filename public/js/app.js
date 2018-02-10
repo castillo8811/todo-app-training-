@@ -29816,13 +29816,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/**
- * Tips:
- * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
- *   al arreglo que debe tener una estructura similar a los datos de ejemplo.
- * - En addTodo, removeTodo y toggleTodo deben hacer los cambios pertinentes para que las modificaciones,
- *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
- */
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { TodoInput: __WEBPACK_IMPORTED_MODULE_0__todo_input___default.a },
     data: function data() {
@@ -29850,7 +29843,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addTodo: function addTodo(todoItemText) {
             var _this2 = this;
 
-            alert('Aqui');
             var text = todoItemText;
             if (text !== '') {
                 axios.post('/api/todos', {
@@ -29968,13 +29960,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/**
- * Tips:
- * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
- *   al arreglo que debe tener una estructura similar a los datos de ejemplo.
- * - En addTodo, removeTodo y toggleTodo deben hacer los cambios pertinentes para que las modificaciones,
- *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
- */
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['todo'],
     data: function data() {
@@ -29985,7 +29970,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         add: function add() {
-            this.$emit('add', this.todoItemText);
+            if (this.todoItemText !== '') {
+                this.$emit('add', this.todoItemText);
+                this.todoItemText = '';
+            }
         }
     }
 });
@@ -30191,19 +30179,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/**
- * Tips:
- * - En mounted pueden obtener el listado del backend de todos y dentro de la promesa de axios asirnarlo
- *   al arreglo que debe tener una estructura similar a los datos de ejemplo.
- * - En addTodo, removeTodo y toggleTodo deben hacer los cambios pertinentes para que las modificaciones,
- *   addiciones o elimicaiones tomen efecto en el backend asi como la base de datos.
- */
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['todo'],
-    data: function data() {
-        return {};
-    },
-
     methods: {
         remove: function remove(todo) {
             this.$emit('remove', todo);

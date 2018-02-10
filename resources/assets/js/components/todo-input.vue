@@ -24,7 +24,8 @@
         methods: {
             add() {
                 if(this.todoItemText !== ''){
-                    this.$emit('add', this.todoItemText)
+                    this.$emit('add', this.todoItemText);
+                    this.todoItemText='';
                 }
             },
         }
